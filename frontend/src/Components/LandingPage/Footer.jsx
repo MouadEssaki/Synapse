@@ -27,9 +27,12 @@ const Footer = () => {
                     <a className="link link-hover">Cookie policy</a>
                 </nav>
             </footer>
-            
-            <footer className="py-12 text-center text-gray-400 text-sm font-bold uppercase tracking-widest border-t border-gray-100">
-                Synapse © 2025 — All Rights Reserved
+
+            <footer >
+                <div className="border-t border-gray-100 py-6 px-6 flex flex-col md:flex-row items-center justify-between gap-3">
+                    <p className="text-xs text-gray-400">Synapse © 2025 — All Rights Reserved</p>
+                    <p className="text-xs text-gray-300 font-semibold uppercase tracking-widest">Made with ♥ for deep thinkers</p>
+                </div>
             </footer>
         </div>
 

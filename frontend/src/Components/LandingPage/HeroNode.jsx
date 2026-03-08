@@ -2,33 +2,39 @@ import { Handle, Position } from '@xyflow/react';
 
 const HeroNode = ({ data }) => {
     return (
-        <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 min-w-75 overflow-hidden group hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300">
+        <div className="bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.07)] border border-gray-100 min-w-[180px] overflow-hidden group hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 transition-all duration-300">
 
-            <div className="h-10 border-b border-gray-100 px-4 flex items-center justify-between bg-white">
-                <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
-                    {data.tag || 'Component'}
-                </span>
-                <div className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-blue-400 transition-colors"></div>
+            {/* Tag bar */}
+            <div className="h-9 border-b border-gray-50 px-4 flex items-center justify-between bg-gray-50/60">
+                <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#342F2F]/30 group-hover:bg-[#342F2F]/60 transition-colors" />
+                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-[0.18em]">
+                        {data.tag || 'Node'}
+                    </span>
+                </div>
+                <div className="flex gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-gray-200" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-gray-200" />
+                </div>
             </div>
 
-            <div className="p-5 bg-white">
+            {/* Content */}
+            <div className="px-4 py-3.5 bg-white">
                 {data.label}
             </div>
-
 
             {data.type !== 'input' && (
                 <Handle
                     type="target"
                     position={Position.Left}
-                    className="!w-3 !h-3 !bg-gray-300 !border-2 !border-white !shadow-sm hover:!bg-blue-500 hover:!w-4 hover:!h-4 transition-all"
+                    className="!w-2.5 !h-2.5 !bg-gray-200 !border-2 !border-white !shadow hover:!bg-[#342F2F] transition-colors"
                 />
             )}
-
             {data.type !== 'output' && (
                 <Handle
                     type="source"
                     position={Position.Right}
-                    className="!w-3 !h-3 !bg-gray-300 !border-2 !border-white !shadow-sm hover:!bg-blue-500 hover:!w-4 hover:!h-4 transition-all"
+                    className="!w-2.5 !h-2.5 !bg-gray-200 !border-2 !border-white !shadow hover:!bg-[#342F2F] transition-colors"
                 />
             )}
         </div>

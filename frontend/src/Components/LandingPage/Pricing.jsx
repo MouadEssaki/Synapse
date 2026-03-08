@@ -1,83 +1,132 @@
-import { motion } from "framer-motion";
-import { CheckIcon } from "lucide-react";
+import { motion } from 'framer-motion';
+import { Check, Sparkles, ArrowRight, Zap } from 'lucide-react';
 
-const Pricing = () => {
+const plans = [
+    {
+        name: 'Free',
+        price: '$0',
+        period: 'forever',
+        description: 'Perfect to get started.',
+        features: ['1 workspace', '5 boards max', 'Core node editor', 'Community support'],
+        cta: 'Start for free',
+        ctaStyle: 'bg-gray-100 text-[#342F2F] hover:bg-gray-200',
+        highlighted: false,
+    },
+    {
+        name: 'Pro',
+        price: '$29',
+        period: 'per month',
+        description: 'For serious thinkers.',
+        features: ['Unlimited boards', 'AI Quick Think', 'Semantic Clustering', 'One-Shot Board', 'Priority support', 'Custom exports'],
+        cta: 'Start Pro trial',
+        ctaStyle: 'bg-[#342F2F] text-white hover:bg-[#1a1614]',
+        highlighted: true,
+        badge: 'Most popular',
+    },
+    {
+        name: 'Enterprise',
+        price: 'Custom',
+        period: 'per team',
+        description: 'For large organizations.',
+        features: ['Everything in Pro', 'Unlimited members', 'SSO & SAML', 'Dedicated CSM', 'SLA guarantee', 'On-premise option'],
+        cta: 'Contact sales',
+        ctaStyle: 'bg-gray-100 text-[#342F2F] hover:bg-gray-200',
+        highlighted: false,
+    },
+];
 
+const Pricing = () => (
+    <section id="pricing" className="py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+            >
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-500 text-[9px] font-black uppercase tracking-widest mb-5">
+                    <Zap size={9} className="text-[#342F2F]" /> Pricing
+                </div>
+                <h2 className="Melodrama-Bold text-4xl md:text-5xl font-bold text-[#342F2F] mb-4">
+                    Simple, honest pricing
+                </h2>
+                <p className="text-gray-400 text-base">Start free. Scale when you're ready.</p>
+            </motion.div>
 
-    const fadeUp = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-    };
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+                {plans.map((plan, i) => (
+                    <motion.div
+                        key={plan.name}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: i * 0.1 }}
+                        className={`relative flex flex-col rounded-3xl p-7 transition-all
+                            ${plan.highlighted
+                                ? 'bg-[#342F2F] text-white shadow-2xl shadow-[#342F2F]/30 md:-translate-y-3 ring-1 ring-[#342F2F]'
+                                : 'bg-white border border-gray-100 hover:border-gray-200 hover:shadow-lg'
+                            }`}
+                    >
+                        {plan.badge && (
+                            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500 text-white text-[9px] font-black uppercase tracking-widest shadow-lg">
+                                    <Sparkles size={8} fill="currentColor" />
+                                    {plan.badge}
+                                </div>
+                            </div>
+                        )}
 
+                        <div className="mb-6">
+                            <p className={`text-xs font-black uppercase tracking-widest mb-2 ${plan.highlighted ? 'text-white/40' : 'text-gray-400'}`}>
+                                {plan.name}
+                            </p>
+                            <div className="flex items-end gap-1.5 mb-1">
+                                <span className={`text-4xl font-black leading-none ${plan.highlighted ? 'text-white' : 'text-[#342F2F]'}`}>
+                                    {plan.price}
+                                </span>
+                                {plan.price !== 'Custom' && (
+                                    <span className={`text-sm mb-1 ${plan.highlighted ? 'text-white/40' : 'text-gray-400'}`}>
+                                        / {plan.period}
+                                    </span>
+                                )}
+                            </div>
+                            <p className={`text-sm ${plan.highlighted ? 'text-white/50' : 'text-gray-400'}`}>
+                                {plan.description}
+                            </p>
+                        </div>
 
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2 }
-        }
-    };
+                        <div className="h-px mb-6" style={{ backgroundColor: plan.highlighted ? 'rgba(255,255,255,0.08)' : '#f3f4f6' }} />
 
-
-    return (
-        <section className="py-24 bg-transparent px-6 relative z-20">
-            <div className="max-w-7xl mx-auto">
-                <motion.div
-                    className="text-center mb-16"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeUp}
-                >
-                    <h2 className="text-4xl font-bold mb-4">Plans tarifaires simples</h2>
-                    <p className="text-gray-500 text-lg">Commencez gratuitement, évoluez quand vous en avez besoin.</p>
-                </motion.div>
-
-                <motion.div
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={staggerContainer}
-                >
-                    <motion.div variants={fadeUp} className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                        <h3 className="text-xl font-bold mb-2">Starter</h3>
-                        <p className="text-4xl font-bold mb-6">$0<span className="text-base font-normal text-gray-500">/mo</span></p>
-                        <ul className="space-y-3 mb-8 text-gray-600">
-                            <li className="flex items-center"><CheckIcon /> 1 utilisateur</li>
-                            <li className="flex items-center"><CheckIcon /> 5 projets</li>
-                            <li className="flex items-center"><CheckIcon /> Support communautaire</li>
+                        <ul className="space-y-3 mb-8 flex-1">
+                            {plan.features.map(f => (
+                                <li key={f} className={`flex items-center gap-2.5 text-sm ${plan.highlighted ? 'text-white/80' : 'text-gray-600'}`}>
+                                    <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${plan.highlighted ? 'bg-white/10' : 'bg-gray-100'}`}>
+                                        <Check size={9} strokeWidth={3} className={plan.highlighted ? 'text-white' : 'text-gray-500'} />
+                                    </div>
+                                    {f}
+                                </li>
+                            ))}
                         </ul>
-                        <button className="w-full btn bg-gray-50 hover:bg-gray-100 text-black border-none normal-case rounded-xl">Commencer</button>
-                    </motion.div>
 
-                    <motion.div variants={fadeUp} className="bg-[#342F2F] text-white p-8 rounded-2xl shadow-xl relative transform md:-translate-y-4">
-                        <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs px-3 py-1 rounded-bl-lg rounded-tr-lg font-bold">POPULAIRE</div>
-                        <h3 className="text-xl font-bold mb-2">Pro</h3>
-                        <p className="text-4xl font-bold mb-6">$29<span className="text-base font-normal text-gray-400">/mo</span></p>
-                        <ul className="space-y-3 mb-8 text-gray-300">
-                            <li className="flex items-center"><CheckIcon /> Jusqu'à 5 utilisateurs</li>
-                            <li className="flex items-center"><CheckIcon /> Projets illimités</li>
-                            <li className="flex items-center"><CheckIcon /> Analytics avancés</li>
-                            <li className="flex items-center"><CheckIcon /> Support prioritaire</li>
-                        </ul>
-                        <button className="w-full btn bg-white text-black hover:bg-gray-100 border-none normal-case font-bold rounded-xl">Essayer Pro</button>
+                        <button className={`w-full py-3 rounded-2xl text-sm font-black transition-all active:scale-[0.98] flex items-center justify-center gap-2 group ${plan.ctaStyle}`}>
+                            {plan.cta}
+                            <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
+                        </button>
                     </motion.div>
-
-                    <motion.div variants={fadeUp} className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                        <h3 className="text-xl font-bold mb-2">Enterprise</h3>
-                        <p className="text-4xl font-bold mb-6">Custom</p>
-                        <ul className="space-y-3 mb-8 text-gray-600">
-                            <li className="flex items-center"><CheckIcon /> Utilisateurs illimités</li>
-                            <li className="flex items-center"><CheckIcon /> Sécurité avancée (SSO)</li>
-                            <li className="flex items-center"><CheckIcon /> CSM dédié</li>
-                        </ul>
-                        <button className="w-full btn bg-gray-50 hover:bg-gray-100 text-black border-none normal-case rounded-xl">Contacter</button>
-                    </motion.div>
-                </motion.div>
+                ))}
             </div>
-        </section>
-    );
-}
+
+            {/* Trust line */}
+            <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="text-center text-xs text-gray-400 mt-8"
+            >
+                No credit card required · Cancel anytime · GDPR compliant
+            </motion.p>
+        </div>
+    </section>
+);
 
 export default Pricing;
