@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.BrainBubble</groupId>
+	<groupId>com.Synapse</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>backend</name>
