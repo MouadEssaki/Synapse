@@ -1,28 +1,49 @@
 services:
+
   db:
-    image: postgres:15
+    image: postgres:16-alpine
+    container_name: synapse-db
+    restart: unless-stopped
+    env_file: .env
     environment:
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER:     ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB:       ${DB_NAME}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
+    container_name: synapse-api
+    restart: unless-stopped
+    env_file: .env
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      # On passe les variables au container Java
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+      SPRING_DATASOURCE_URL:      jdbc:postgresql://db:5432/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET_KEY:             ${JWT_SECRET_KEY}
 
   frontend:
     build: ./frontend
+    container_name: synapse-client
+    restart: unless-stopped
+    env_file: .env
     ports:
       - "5173:5173"
     depends_on:
       - backend
+
+volumes:
+  postgres_data:
